@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "macosDSL2",
+            "compilerPath": "gcc",
+            "includePath": [
+                "${workspaceFolder}/",
+                "${workspaceFolder}/Core/Inc",
+                "/usr/local/include/SDL2"
+            ],
+            "defines": [
+                "DEBUG=1"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "gcc",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/",
+                    "${workspaceFolder}/src/",
+                    "${workspaceFolder}/board/",
+                    "${workspaceFolder}/board/Src"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}

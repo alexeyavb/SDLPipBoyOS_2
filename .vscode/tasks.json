@@ -1,0 +1,45 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build DEBUG",
+            "type": "shell",
+            "command": "colormake",
+            "args": [
+                "all",
+                "-j14"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {"base": "$gcc", "fileLocation":"absolute"}
+        },
+        {
+            "label": "build RELEASE",
+            "type": "shell",
+            "command": "colormake",
+            "args": [
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": {"base": "$gcc", "fileLocation":"absolute"}
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "colormake",
+            "args": [
+                "BOARD=stm32f411blackpill",
+                "clean"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },            
+            "problemMatcher": {"base": "$gcc", "fileLocation":"absolute"}
+        } 
+    ]
+}
