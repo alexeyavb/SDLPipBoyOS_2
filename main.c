@@ -35,12 +35,13 @@ extern void draw_main_menu_items(void);
 int main(int argc, char *argv[]){
     SDL_Event event;
     core_init();
+    printf("joisticks found %d \n", SDL_NumJoysticks());
     main_menu_init(NULL);
     
-    extern int bmp_rain1(void);
+    extern int bmp_rain2(void);
     // extern int bmp_rain2(void);
 
-    bmp_rain1();
+    bmp_rain2();
 
     while (1) {        
         

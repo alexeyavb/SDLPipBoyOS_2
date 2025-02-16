@@ -21,8 +21,7 @@ int core_init(){
     errlvl = TTF_Init();
     if(errlvl != 0){
         perror("Error initialise TTF subcore");
-    }
-
+    }    
     // SDL_CreateWindowAndRenderer(
     //     DEF_SCREEN_WIDTH,
     //     DEF_SCREEN_HEIGHT,
@@ -39,9 +38,11 @@ int core_init(){
         );
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
-    SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "best");
-    SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "best");
-
+    SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "1");
+    SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "KMSDRM");
+    
+    SDL_SetWindowKeyboardGrab(window, SDL_TRUE);
+    
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
 
     SDL_RenderSetLogicalSize(renderer, DEF_SCREEN_WIDTH, DEF_SCREEN_HEIGHT);
