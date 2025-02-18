@@ -43,6 +43,7 @@ C_SOURCES =  \
 	Core/Src/ttf_utils.c \
 	Core/Src/bmp_font.c \
 	Core/Src/core_init.c \
+	Core/Src/linux_events_thread.c \
 	Core/Src/mainmenu.c \
 	Core/Src/demo.c \
 	Core/Src/bmp_rain1.c \

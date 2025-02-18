@@ -31,15 +31,16 @@ SDL_Rect current_rect;
 extern void draw_main_menu_header(void);
 extern void render_demo_mode(void);
 extern void draw_main_menu_items(void);
+extern void draw_alpha_line(void);
 
 int main(int argc, char *argv[]){
     SDL_Event event;
     core_init();
-    printf("joisticks found %d \n", SDL_NumJoysticks());
     main_menu_init(NULL);
     
     extern int bmp_rain2(void);
     // extern int bmp_rain2(void);
+    extern void EventThread_Init(void); EventThread_Init();
 
     bmp_rain2();
 
@@ -71,12 +72,13 @@ int main(int argc, char *argv[]){
         draw_main_screen_border();        
         draw_main_menu_header();
         draw_main_menu_items();
-        
-        // demo defs
+        // demo defs        
         render_demo_mode();
+        
+        // draw_alpha_line();
 
         SDL_RenderPresent(renderer);
-        common_fps_update_and_print();        
+        common_fps_update_and_print();
     }
     main_menu_deinit();
     core_deinit();
