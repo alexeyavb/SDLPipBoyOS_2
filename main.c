@@ -43,7 +43,8 @@ int main(int argc, char *argv[]){
     extern void EventThread_Init(void); EventThread_Init();
 
     bmp_rain2();
-
+    extern int active_menu_item;
+    extern bool expandorcall_cb;
     while (1) {        
         
         if (SDL_PollEvent(&event) && event.type == SDL_QUIT)
@@ -53,13 +54,15 @@ int main(int argc, char *argv[]){
             case SDL_KEYDOWN:{
                 switch( event.key.keysym.sym ){
                     case SDLK_RIGHT:{
-                        extern int active_menu_item;
                         active_menu_item = active_menu_item == (MM_SIZE -1) ? 0 : active_menu_item + 1;
                         break;
                     }
                     case SDLK_LEFT:{
-                        extern int active_menu_item;
                         active_menu_item = active_menu_item == 0 ? (MM_SIZE-1) : active_menu_item - 1;
+                        break;
+                    }
+                    case SDLK_RETURN:{
+                        expandorcall_cb = true;
                         break;
                     }
                     default:
@@ -72,6 +75,7 @@ int main(int argc, char *argv[]){
         draw_main_screen_border();        
         draw_main_menu_header();
         draw_main_menu_items();
+        extern void expandorcallacction(void); expandorcallacction();
         // demo defs        
         render_demo_mode();
         

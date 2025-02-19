@@ -12,7 +12,7 @@ static bool is_directly = true;
 static const int time_delay = 6;
 static const int min_alpha = 100;
 static const int max_alpha = 254;
-static const char* demo_mode_text = "DEMO MODE";
+static const char* demo_mode_text = "** DEMO MODE **";
 
 SDL_Rect current_rect; // from main
 
