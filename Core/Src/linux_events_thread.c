@@ -90,7 +90,7 @@ int polldevices(){
                 printf(" error read x axis event data %d\n", (int)rX);                
             }
             else {
-                printf("X AXIS_EVENT time=%ld.%06lu type=%hu code=%hu value=%u\n", inp_data->time.tv_sec, inp_data->time.tv_usec, inp_data->type, inp_data->code, inp_data->value);
+                printf("X AXIS_EVENT time=%ld.%06d type=%hu code=%hu value=%u\n", inp_data->time.tv_sec, inp_data->time.tv_usec, inp_data->type, inp_data->code, inp_data->value);
                 memset(inp_data,0,inp_size);                
             }
         }        
@@ -104,7 +104,7 @@ int polldevices(){
                 printf(" error read Y axis event data %d\n", (int)rY);                
             }
             else {
-                printf("X AXIS_EVENT time=%ld.%06lu type=%hu code=%hu value=%u\n", inp_data->time.tv_sec, inp_data->time.tv_usec, inp_data->type, inp_data->code, inp_data->value);
+                printf("X AXIS_EVENT time=%ld.%06d type=%hu code=%hu value=%u\n", inp_data->time.tv_sec, inp_data->time.tv_usec, inp_data->type, inp_data->code, inp_data->value);
                 memset(inp_data,0,inp_size);                
             }
         }        

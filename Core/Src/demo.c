@@ -11,13 +11,16 @@ static int current_demo_alpha = 0;
 static bool is_directly = true;
 static const int time_delay = 6;
 static const int min_alpha = 100;
-static const int max_alpha = 224;
+static const int max_alpha = 254;
 static const char* demo_mode_text = "DEMO MODE";
 
-extern SDL_Rect current_rect; // from main
+SDL_Rect current_rect; // from main
+
 // end demo defs
 
 void render_demo_mode(void){
+    current_rect.y = 44;
+    
     dmo_color.a = current_demo_alpha;
     dmo_color.r = 0;
     dmo_color.g = 254;

@@ -25,8 +25,8 @@ static int one_symb_h = 0;
 
 // main screen defs
 SDL_Rect screen_rect;
-SDL_Rect main_menu_rect;
-SDL_Rect current_rect;
+// SDL_Rect main_menu_rect;
+// SDL_Rect current_rect;
 
 extern void draw_main_menu_header(void);
 extern void render_demo_mode(void);
