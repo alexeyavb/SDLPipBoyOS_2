@@ -3,6 +3,8 @@
 
 #define MM_SIZE 8
 #define MM_STAR_SIZE 3
+#define MM_MAIN_SIZE 4
+#define MM_FILE_SIZE 5
 
 #define MM_MENU_ASZE    3
 #define MM_MENU_LBL     0

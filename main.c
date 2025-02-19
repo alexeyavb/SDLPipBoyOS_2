@@ -45,6 +45,7 @@ int main(int argc, char *argv[]){
     bmp_rain2();
     extern int active_menu_item;
     extern bool expandorcall_cb;
+    extern bool expandordown_cb;
     while (1) {        
         
         if (SDL_PollEvent(&event) && event.type == SDL_QUIT)
@@ -59,6 +60,12 @@ int main(int argc, char *argv[]){
                     }
                     case SDLK_LEFT:{
                         active_menu_item = active_menu_item == 0 ? (MM_SIZE-1) : active_menu_item - 1;
+                        break;
+                    }
+                    case SDLK_DOWN:{
+                        expandordown_cb = true;
+                        // Если в открытом субменю смещаемся вниз
+                        // Если в главном меню раскрывываем пункт аналогично VK_RETURN
                         break;
                     }
                     case SDLK_RETURN:{
