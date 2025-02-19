@@ -16,7 +16,7 @@ typedef struct input_event {
     struct timeval time;
     unsigned short type;
     unsigned short code;
-    unsigned int value;
+    int value;
 } *pinput_event;
 // input_event, *PINPUT_EVENT, **LPINPUT_EVENT;
 
@@ -69,14 +69,15 @@ int closedevices(void){
 }
 
 
-int polldevices(){
+int polldevices(struct input_event* inp_data, int inp_size){
 
+/*
 	static const int inp_size = sizeof(struct input_event);
     printf("input_size=%d\n", inp_size);
 	struct input_event input_data;
     struct input_event* inp_data = &input_data;
     memset(inp_data,0,inp_size);
-
+*/
 
     int timeout_ms = 500;
     int retX = poll(&(axis[AXIS_X]), 1, timeout_ms);
@@ -90,7 +91,7 @@ int polldevices(){
                 printf(" error read x axis event data %d\n", (int)rX);                
             }
             else {
-                printf("X AXIS_EVENT time=%ld.%06d type=%hu code=%hu value=%u\n", inp_data->time.tv_sec, inp_data->time.tv_usec, inp_data->type, inp_data->code, inp_data->value);
+                printf("X AXIS_EVENT time=%ld.%06ld type=%hu code=%hu value=%d\n", inp_data->time.tv_sec, inp_data->time.tv_usec, inp_data->type, inp_data->code, inp_data->value);
                 memset(inp_data,0,inp_size);                
             }
         }        
@@ -104,7 +105,7 @@ int polldevices(){
                 printf(" error read Y axis event data %d\n", (int)rY);                
             }
             else {
-                printf("X AXIS_EVENT time=%ld.%06d type=%hu code=%hu value=%u\n", inp_data->time.tv_sec, inp_data->time.tv_usec, inp_data->type, inp_data->code, inp_data->value);
+                printf("X AXIS_EVENT time=%ld.%06ld type=%hu code=%hu value=%d\n", inp_data->time.tv_sec, inp_data->time.tv_usec, inp_data->type, inp_data->code, inp_data->value);
                 memset(inp_data,0,inp_size);                
             }
         }        
@@ -127,13 +128,21 @@ int threadproc(void *data){
     printf("Enter Thread proc callback\n");
 
     opendevices();
+
+
+    static const int inp_size = sizeof(struct input_event);
+    printf("input_size=%d\n", inp_size);
+    static struct input_event input_data;
+    static struct input_event* inp_data = &input_data;
+    memset(inp_data,0,inp_size);
+
     running =true;
     while (running){
         if(SDL_GetTicks() >= next_message) {
             printf("Event Thread proc callback\n");
             next_message = SDL_GetTicks() + MSG_DELAY_MSEC;
         }
-        polldevices();
+        polldevices(inp_data, inp_size);
     }
     closedevices();
     printf("Exit from Thread proc callback\n");
