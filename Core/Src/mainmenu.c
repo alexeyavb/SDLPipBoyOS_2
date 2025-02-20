@@ -130,14 +130,17 @@ void main_menu_deinit(void){
 // Yellow theme
 /*
 static const SDL_Color mmcolor = {
-    0x3b, 0x23, 0x00, 0xff
+    // #fbf300ff    
+    0xfb, 0xf3, 0x00, 0xff
 };
 
 static SDL_Color mmpcolor = {
+    // #ffff05ff
     0xff, 0xf8, 0xc5, 0xff
 };
 
 static SDL_Color mmacolor = {
+    // #bf8700f0
     0xbf, 0x87, 0x00, 0xf0
 };
 */
@@ -172,53 +175,87 @@ void draw_main_menu_header(void){
     SDL_RenderFillRect(renderer, &mainmenufullrect);
 }
 
-void draw_main_menu_items(void){
-    TTF_Font *mmfont = TTF_FontCache[DEF_FONT_24_IDX];
-    SDL_Rect current_rect;
 
-    for(int i=0; i < MM_SIZE; i++){
-        render_text(renderer, 
-            mainmenufullrect.x + 1 + (0==i ? 0 : current_rect.x + current_rect.w + 1),
-                mainmenufullrect.y + 1, 
-            mainmenu[i]->itm_label, 
-            mmfont, 
-            &current_rect, 
-            active_menu_item == i ? &mmpcolor : &mmacolor);
-        mainmenu[i]->isactive = false;
+void draw_menu_items(PMAIN_MENU_ITEM parent, PMAIN_MENU_ITEM item, SDL_Rect* current_rect, const int itemscount, bool isFirstItem){
+    int x,y;
+    for(int i = 0; i < itemscount; i++){
+        if(NULL == parent && isFirstItem){
+            x = mainmenufullrect.x + 1 + ( current_rect->x + current_rect->w + 1 );
+            y = mainmenufullrect.y + 1;
+        }
+        else{
+            x = mainmenufullrect.x + 1 + (0 == i ? current_rect->x + 2 : current_rect->x + current_rect->w + 1);
+            y = mainmenufullrect.y + 1 + current_rect->h + 1;
+        }
 
-        if(active_menu_item == i) {
-            mainmenu[i]->isactive = true;
-            SDL_RenderFillRect(renderer, &current_rect);
-            render_text(renderer, 
-                current_rect.x,
-                mainmenufullrect.y + 1, 
-                mainmenu[i]->itm_label,
-                mmfont, 
-                &current_rect,
-                active_menu_item == i ? &mmpcolor : &mmacolor);
-                
-            // draw 1 lvl subitems
-            if(mainmenu[i]->isexpandable && mainmenu[i]->isexpanded && (0<mainmenu[i]->subitemscount) && (NULL != mainmenu[i]->subitems)){
-                PMAIN_MENU_ITEM currentitem = (PMAIN_MENU_ITEM)(mainmenu[i]);
-                SDL_Rect current_subrect = {0};
-                for(int si = 0; si<mainmenu[i]->subitemscount; si++){                    
-                    render_text(renderer, 
-                        mainmenufullrect.x + 1 + (0==si ? current_rect.x + 4 : current_subrect.x + current_subrect.w + 1),
-                        mainmenufullrect.y + 1 + current_rect.h+2,                                                
-                        currentitem->subitems->itm_label,
-                        TTF_FontCache[DEF_FONT_22_IDX],
-                        &current_subrect,
-                        &mmacolor);
+        PMAIN_MENU_ITEM current_item = (i > 0)  ? current_item->subitems : item;
+        
+        if( NULL == current_item )
+            continue;
 
-                        if(NULL != currentitem->subitems)
-                            currentitem = (PMAIN_MENU_ITEM)currentitem->subitems;
-                }
-            }
-        }        
-        memcpy((SDL_Rect*)(mainmenu[i]->item_rect), &current_rect, sizeof(SDL_Rect));
+        render_text(renderer, x, y,
+            current_item->itm_label, TTF_FontCache[DEF_FONT_24_IDX], 
+            current_rect, true == current_item->isactive ? &mmpcolor : &mmacolor);
+        
+        memcpy((SDL_Rect*)(current_item->item_rect), current_rect, sizeof(struct SDL_Rect));
+        
+        if(current_item->isexpandable && current_item->isexpanded && current_item->subitemscount > 0 && current_item->isactive)
+            draw_menu_items(current_item, current_item->subitems, current_item->item_rect, current_item->subitemscount, true);
     }
 }
 
+void draw_main_menu_items(void){
+    SDL_Rect rect = {0};
+    for(int i=0; i < MM_SIZE; i++){
+        mainmenu[i]->isactive = false;
+        if(i == active_menu_item)
+            mainmenu[i]->isactive = true;
+
+        draw_menu_items(NULL, mainmenu[i], &rect, 1, true);
+    }    
+}
+
+
+PMAIN_MENU_ITEM calculate_next_active_submenu(PMAIN_MENU_ITEM current_item){
+    if(NULL == current_item)
+        return NULL;
+
+    if(NULL != current_item->subitems && current_item->isactive){          
+        return current_item;
+    }else{
+        if(NULL == current_item->subitems && current_item->isactive)
+            current_item->isactive = false;
+        return(NULL == current_item->subitems ? NULL : calculate_next_active_submenu(current_item->subitems));
+    }        
+}
+
+void set_next_active_submenu(void){
+    if(!expandordown_cb)
+        return;
+    
+    expandordown_cb = false;
+
+    PMAIN_MENU_ITEM first_sub_item = mainmenu[active_menu_item]->isexpandable ? mainmenu[active_menu_item]->subitems : NULL;
+    if(NULL == first_sub_item)
+        return;
+
+    PMAIN_MENU_ITEM current_active_sm = calculate_next_active_submenu(first_sub_item);
+    if(NULL == current_active_sm){
+        first_sub_item->isactive = true;
+        return;
+    }
+            
+    if(NULL == current_active_sm->subitems){
+        current_active_sm->isactive = false;
+        first_sub_item->isactive = true;
+        return;
+    }
+
+    current_active_sm->isactive = false;
+    current_active_sm->subitems->isactive = true;
+
+    return;    
+}
  // expand or call cb
  void expandorcallacction(void){
     if (expandorcall_cb){
@@ -236,17 +273,4 @@ void draw_main_menu_items(void){
         }        
     }
     expandorcall_cb = false;
-}
-
-// expand or call cb
-void expandordownacction(void){
-    if (expandordown_cb){
-        if(0 < mainmenu[active_menu_item]->subitemscount){
-        }
-    }
-    expandordown_cb = false;
-}
-
-void draw_submenu_items(PMAIN_MENU_ITEM menuitem){
-
 }

@@ -30,7 +30,10 @@ SDL_Rect screen_rect;
 
 extern void draw_main_menu_header(void);
 extern void render_demo_mode(void);
+
 extern void draw_main_menu_items(void);
+extern void set_next_active_submenu(void);
+
 extern void draw_alpha_line(void);
 
 int main(int argc, char *argv[]){
@@ -77,17 +80,17 @@ int main(int argc, char *argv[]){
                 }
             }
         }        
-
         draw_fps();        
         draw_main_screen_border();        
         draw_main_menu_header();
+        // main menu routines
         draw_main_menu_items();
+        set_next_active_submenu();
         extern void expandorcallacction(void); expandorcallacction();
         // demo defs        
         render_demo_mode();
         
         // draw_alpha_line();
-
         SDL_RenderPresent(renderer);
         common_fps_update_and_print();
     }
