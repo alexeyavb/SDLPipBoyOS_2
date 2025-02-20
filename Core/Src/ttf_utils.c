@@ -17,7 +17,7 @@ void render_text(
     SDL_Surface *surface;
     SDL_Texture *texture;
 
-    surface = TTF_RenderText_Solid(font, text, *color);
+    surface = TTF_RenderUTF8_Solid(font, text, *color);
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     rect->x = x;
     rect->y = y;

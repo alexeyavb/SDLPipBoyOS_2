@@ -33,14 +33,6 @@ typedef struct label_struct{
     void *action_cb;
 } **LPLABEL_STRUCT, *PLABEL_STRUCT, LABEL_STRUCT;
 
-// current active menu path strucuture
-typedef struct activemmbtree{
-    struct activemmbtree* parent;
-    struct activemmbtree* next;
-    int idx;
-    PMAIN_MENU_ITEM menuitem;
-} **LPACTIVE_MM_BTREE, *PACTIVE_MM_BTREE, ACTIVE_MM_BTREE;
-
 static PMAIN_MENU_ITEM mainmenu[MM_SIZE];
 
 static const LABEL_STRUCT mm_star_items[MM_STAR_SIZE]= {

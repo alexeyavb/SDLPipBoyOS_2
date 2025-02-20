@@ -45,7 +45,7 @@ int main(int argc, char *argv[]){
     // extern int bmp_rain2(void);
     extern void EventThread_Init(void); EventThread_Init();
 
-    bmp_rain2();
+    // bmp_rain2();
     extern int active_menu_item;
     extern bool expandorcall_cb;
     extern bool expandordown_cb;
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]){
         // demo defs        
         render_demo_mode();
         
-        // draw_alpha_line();
+        draw_alpha_line();
         SDL_RenderPresent(renderer);
         common_fps_update_and_print();
     }
