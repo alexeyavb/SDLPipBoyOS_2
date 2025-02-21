@@ -3,11 +3,14 @@
 #include <SDL2/SDL.h>
 typedef struct {
     int next_rot_frame_delay;
-    int no_rotate;
+    bool no_rotate;
+    bool rotation_loop;
     int next_rot_frame;
     double angle;        
     int nul_angle_delay;
     double zoom_step;
+    int next_rotate_time;
+    int stable_delay;
     SDL_Surface* surface;
     SDL_Rect* destination;
 } global_vars, *PGLOBAL_VARS, **LPGLOBAL_VARS;

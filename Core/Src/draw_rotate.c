@@ -18,8 +18,11 @@ PGLOBAL_VARS init_draw_rotate(void){
     glob->destination->w = DEF_SCREEN_WIDTH - mainmenufullrect.x - glob->destination->x;
     glob->angle = 360.0f;
     glob->zoom_step = 1.0f;
-    glob->no_rotate = 200;
+    glob->no_rotate = false;
     glob->next_rot_frame_delay = 100;
+    glob->next_rotate_time = 0;
+    glob->stable_delay = 3000;
+    glob->rotation_loop = true;
 
     return glob;
 }
@@ -33,24 +36,28 @@ void deinit_draw_rotate(void* glob){
 void ldraw_rotate(void* variables_struct){
 
     PGLOBAL_VARS pglob = (global_vars*)(variables_struct);
-    // int next_rot_frame_delay = pglob->next_rot_frame_delay;
-    // int next_rot_frame = pglob->next_rot_frame;
-    // double angle = pglob->angle;
-    // int no_rotate = pglob->no_rotate;
-    // int nul_angle_delay = pglob->nul_angle_delay;
-    // double zoom_step = pglob->zoom_step;
 
-    // SDL_Rect* destination = pglob->destination;
-    // SDL_Surface* surface = pglob->surface;
+    if(!pglob->no_rotate){
+        if(SDL_GetTicks() >= pglob->next_rot_frame){
 
-    // angle = 360.0f;
-    // zoom_step = 1.0f;
-    // zoom_step = (360>=angle && 1.0f >= zoom_step ? zoom_step+0.1f : 0.5);        
-
-    if(SDL_GetTicks() >= pglob->next_rot_frame && pglob->nul_angle_delay >= pglob->no_rotate){        
-        pglob->angle = ( 360.0f >= pglob->angle ?  pglob->angle + 40 : 0.0f);
-        pglob->next_rot_frame = SDL_GetTicks() + pglob->next_rot_frame_delay;
+            if(360.0f >= pglob->angle){
+                pglob->angle += 40;
+            } else{
+                pglob->angle *= 0.0f;
+                pglob->next_rotate_time = SDL_GetTicks() + pglob->stable_delay;
+                pglob->no_rotate = true;
+            } 
+            
+            pglob->next_rot_frame = SDL_GetTicks() + pglob->next_rot_frame_delay;
+        }
     }
+    else {
+        if(SDL_GetTicks() >= pglob->next_rotate_time){
+            pglob->no_rotate = false;
+            pglob->angle = 0.00f;            
+        }
+    }
+
 
     SDL_Surface* rotated = rotozoomSurface(pglob->surface, pglob->angle, pglob->zoom_step, 0);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, rotated); 
@@ -60,7 +67,7 @@ void ldraw_rotate(void* variables_struct){
     SDL_RenderCopy(renderer, texture, NULL, pglob->destination);
     SDL_DestroyTexture(texture);
 
-    pglob->nul_angle_delay = 360.0f == pglob->angle && pglob->nul_angle_delay >= pglob->no_rotate ? 0 : pglob->nul_angle_delay + 1;
+    // pglob->nul_angle_delay = 360.0f == pglob->angle && pglob->nul_angle_delay >= pglob->no_rotate ? 0 : pglob->nul_angle_delay + 1;
 
     // double angle = -(atan2(destination.x + destination.w/2 , destination.y + destination.h/2)) * (180/M_PI) - 90.0f;
 }
