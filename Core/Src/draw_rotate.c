@@ -9,7 +9,7 @@ bool ldraw_rotate_active;
 PGLOBAL_VARS init_draw_rotate(void){  
     PGLOBAL_VARS glob = malloc(sizeof(global_vars));
     glob->surface = IMG_Load("../data/jpg/motorcicle/scout.jpg\0"); 
-    SDL_SetSurfaceBlendMode(glob->surface, SDL_BLENDMODE_BLEND);
+    SDL_SetSurfaceBlendMode(glob->surface, SDL_BLENDMODE_NONE);
 
     glob->destination = malloc(sizeof(SDL_Rect));
     glob->destination->x = (int)(DEF_SCREEN_WIDTH/2) - (int)(DEF_SCREEN_WIDTH/6);
