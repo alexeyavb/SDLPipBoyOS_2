@@ -46,7 +46,7 @@ int core_init(){
             SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL
         );
 
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
     SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "1");
     SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "KMSDRM");
     
