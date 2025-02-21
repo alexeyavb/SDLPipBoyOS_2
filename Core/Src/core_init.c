@@ -14,6 +14,7 @@ extern int fonts_load(void);
 int core_init(){
     
     int errlvl = 0;
+    SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "kmsdrm");
     errlvl = SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO);
     if(errlvl != 0){
         perror("Error initialise SDL core");
@@ -48,8 +49,8 @@ int core_init(){
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
     SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "1");
-    SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "KMSDRM");
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengles");
+    SDL_SetHint(SDL_HINT_RENDER_LOGICAL_SIZE_MODE, "overscan");
     SDL_GLContext glcontext = SDL_GL_CreateContext(window);
     if(NULL == glcontext){
         SDL_Log("error creating glcontext");        
