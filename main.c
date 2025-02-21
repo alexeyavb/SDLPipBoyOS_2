@@ -143,10 +143,10 @@ void draw_motorcicle(void){
     SDL_FreeSurface(surface);
     
     SDL_Rect destination;
-    destination.x = (int)(DEF_SCREEN_WIDTH/2);
+    destination.x = (int)(DEF_SCREEN_WIDTH/2) - (int)(DEF_SCREEN_WIDTH/6);
     destination.y = (mainmenufullrect.y * 2) + mainmenufullrect.h;
-    destination.w = DEF_SCREEN_WIDTH - mainmenufullrect.x * 4 - destination.x;
-    destination.h = DEF_SCREEN_HEIGHT - destination.y - (mainmenufullrect.y * 2);
+    destination.w = DEF_SCREEN_WIDTH - mainmenufullrect.x - destination.x;
+    destination.h = DEF_SCREEN_HEIGHT - mainmenufullrect.y * 2 - destination.y;
 
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     SDL_DestroyTexture(texture);
