@@ -36,6 +36,10 @@ extern void set_next_active_submenu(void);
 
 extern void draw_alpha_line(void);
 
+
+extern void draw_motorcicle(void); //test
+
+
 int main(int argc, char *argv[]){
     SDL_Event event;
     core_init();
@@ -83,14 +87,21 @@ int main(int argc, char *argv[]){
         draw_fps();        
         draw_main_screen_border();        
         draw_main_menu_header();
+        
         // main menu routines
+        
+        // demo image render
+        draw_motorcicle(); 
+
         draw_main_menu_items();
         set_next_active_submenu();
         extern void expandorcallacction(void); expandorcallacction();
-        // demo defs        
-        render_demo_mode();
         
+        // demo defs       
+        render_demo_mode();
         draw_alpha_line();
+
+
         SDL_RenderPresent(renderer);
         common_fps_update_and_print();
     }
@@ -119,4 +130,23 @@ void draw_main_screen_border(void){
     screen_rect.w = DEF_SCREEN_WIDTH - (2*one_symb_w + 1);
     screen_rect.h = DEF_SCREEN_HEIGHT - (2*one_symb_h + 1);
     SDL_RenderDrawRect(renderer, &screen_rect);
+}
+
+
+void draw_motorcicle(void){
+    SDL_Surface* surface = IMG_Load("../data/jpg/motorcicle/scout.jpg\0"); 
+    SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface); 
+    SDL_SetTextureAlphaMod(texture, 0x5d);
+
+    SDL_FreeSurface(surface);
+    
+    SDL_Rect destination;
+    destination.x = (int)(DEF_SCREEN_WIDTH/2);
+    destination.y = (mainmenufullrect.y * 2) + mainmenufullrect.h;
+    destination.w = DEF_SCREEN_WIDTH - mainmenufullrect.x * 4 - destination.x;
+    destination.h = DEF_SCREEN_HEIGHT - destination.y - (mainmenufullrect.y * 2);
+
+    SDL_RenderCopy(renderer, texture, NULL, &destination);
 }

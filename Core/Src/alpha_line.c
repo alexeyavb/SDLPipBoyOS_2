@@ -3,25 +3,31 @@
 #include "alpha_line.h"
 
 #define DEF_ALPHA_LINE_WIDTH (int)(DEF_SCREEN_WIDTH)
-#define DEF_ALPHA_LINE_HEIGHT (int)(DEF_SCREEN_HEIGHT/18)
+#define DEF_ALPHA_LINE_HEIGHT (int)(DEF_SCREEN_HEIGHT/20)
 
-#define DEF_ALINE_DELAY 500
-#define DEF_ALPHA_LINE_SCALE 1.1f
+#define DEF_ALINE_DELAY 100
+// #define DEF_ALPHA_LINE_SCALE 0.1f
 
-// #25292e
-#define DEF_ALPHA_LINE_CLR_R 0x25
-#define DEF_ALPHA_LINE_CLR_G 0x29
-#define DEF_ALPHA_LINE_CLR_B 0x2e
+// #faf9fe
+#define DEF_ALPHA_LINE_CLR_R 0xfa
+#define DEF_ALPHA_LINE_CLR_G 0xf9
+#define DEF_ALPHA_LINE_CLR_B 0xfe
 #define DEF_ALPHA_LINE_ACHANNEL 0xfa
-#define DEF_RECT_HEIGHT  (int)(((int) DEF_SCREEN_HEIGHT/3)/12)
+#define DEF_RECT_HEIGHT  (int)(((int) DEF_SCREEN_HEIGHT/3)/14)
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 
-static bool thread_running = true;
+// static bool thread_running = true;
 static bool init_complete = false;
 static int y = (-DEF_RECT_HEIGHT);
+
+// static int longdelay;
+// static int next_distortion;
+
 static const int interval = 22;
 static int current_time;
+
+
 
 static int current_time = 0;
 static SDL_Surface *surf; 
@@ -35,14 +41,31 @@ void init_surface(void){
     // SDL_Rect LineRect = {0,0, DEF_SCREEN_WIDTH, DEF_RECT_HEIGHT}; // x,y, w,hB
     // SDL_RenderFillRect(renderer, &LineRect);
     current_time = SDL_GetTicks();
+    // next_distortion = SDL_GetTicks();
     rect = (SDL_Rect*)malloc(sizeof(struct SDL_Rect));
+    
+    // #afafaffa
+    // static const SDL_Color white = {0xaf,0xaf,0xaf,0xfa};
+    // static SDL_PixelFormat rgbpf;
+    // rgbpf.format = 32; rgbpf.Amask = 0xaf; rgbpf.Gmask = 0xfa; rgbpf.Bmask = 0xfa; rgbpf.Rmask = 0xfa; 
 
     // #4fafaffa
-    surf = SDL_CreateRGBSurface(0, DEF_ALPHA_LINE_WIDTH, DEF_ALPHA_LINE_HEIGHT, 32, 0x00, 0x00, 0xaf, 0xaf);
+    // surf = SDL_CreateRGBSurface(0, DEF_ALPHA_LINE_WIDTH, DEF_ALPHA_LINE_HEIGHT, 32, 0x00, 0x00, 0xaf, 0xaf);
+    // SDL_SetSurfaceBlendMode(surf, SDL_BLENDMODE_BLEND);
+
+    surf = SDL_CreateRGBSurface(0, DEF_ALPHA_LINE_WIDTH, DEF_ALPHA_LINE_HEIGHT, 32, 0x00, 0x00, 0xaa, 0xfa);
+    rect->x = 0;
+    rect->y = y;
+    rect->w = surf->w;
+    rect->h = surf->h;
+
     SDL_SetSurfaceBlendMode(surf, SDL_BLENDMODE_BLEND);
+    
+    // SDL_FillRect(surf, rect, SDL_MapRGBA(&rgbpf, white.r, white.g, white.b, white.a));
 
     tex = SDL_CreateTextureFromSurface(renderer, surf);
-    SDL_SetTextureAlphaMod(tex, 0xa8);
+    SDL_SetTextureAlphaMod(tex, 0x6f);
+    // SDL_SetTextureAlphaMod(tex, 0xa8);
     init_complete = true;
 }
 
@@ -54,6 +77,10 @@ void deinit_surface(void){
 }
 
 void draw_alpha_line_proc(void){
+    // if(SDL_GetTicks() >= next_distortion)
+    //     next_distortion = SDL_GetTicks() + rand() % 100 - 100;
+    // else return;
+
     if(SDL_GetTicks() >= current_time){
         int delta = rand() % DEF_SCREEN_HEIGHT - DEF_ALPHA_LINE_HEIGHT;
         current_time = SDL_GetTicks() + interval;
@@ -70,9 +97,9 @@ void draw_alpha_line_proc(void){
     SDL_RenderCopy(renderer, tex, NULL, rect);
 }
 
-
 void draw_alpha_line(void){    
     if (!init_complete)
         init_surface();
     draw_alpha_line_proc();
 }
+
