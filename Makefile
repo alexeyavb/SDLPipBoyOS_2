@@ -144,7 +144,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 LDSCRIPT =
 
 # libraries
-LIBS = -ldl -lSDL2 -lSDL2_image -lSDL2_ttf -lGL
+LIBS = -ldl -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_gfx -lGL
 LIBDIR = -L/usr/lib -L/usr/local/lib -L/usr/local/opt/
 LDFLAGS = $(MCU) $(LIBDIR) $(LIBS)
 
