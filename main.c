@@ -141,26 +141,27 @@ static const int no_rotate = 300;
 static int nul_angle_delay;
 static double zoom_step;
 
-
 void draw_motorcicle(void){
 
     SDL_Rect destination;
+    SDL_Surface* surface;
+
     destination.x = (int)(DEF_SCREEN_WIDTH/2) - (int)(DEF_SCREEN_WIDTH/6);
     destination.y = (mainmenufullrect.y * 2) + mainmenufullrect.h;
     destination.h = DEF_SCREEN_HEIGHT - mainmenufullrect.y * 2 - destination.y;
     destination.w = DEF_SCREEN_WIDTH - mainmenufullrect.x - destination.x;
     
     // angle = 360.0f;
-    zoom_step = 1.0f;
-    // zoom_step = (360>=angle && 1.0f >= zoom_step ? zoom_step+0.1f : 0.5);    
-    
+    zoom_step = 6.0f;
+    // zoom_step = (360>=angle && 1.0f >= zoom_step ? zoom_step+0.1f : 0.5);        
 
-    if(SDL_GetTicks() >= next_rot_frame && nul_angle_delay >= no_rotate){
-        angle = ( 360.0f >= angle ?  angle + 15 : 0.0f);
+    if(SDL_GetTicks() >= next_rot_frame && nul_angle_delay >= no_rotate){        
+        angle = ( 360.0f >= angle ?  angle + 40 : 0.0f);
         next_rot_frame = SDL_GetTicks() + next_rot_frame_delay;
     }
 
-    SDL_Surface* surface = IMG_Load("../data/jpg/motorcicle/scout.jpg\0"); 
+    surface = IMG_Load("../data/jpg/motorcicle/scout.jpg\0"); 
+    
     SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);    
     SDL_Surface* rotated = rotozoomSurface(surface, angle, zoom_step, 0);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, rotated); 
