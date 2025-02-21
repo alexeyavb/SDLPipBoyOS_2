@@ -52,6 +52,7 @@ C_SOURCES =  \
 	Core/Src/alpha_line.c \
 	Core/Src/matrix_rain.c \
 	Core/Src/display_test.c \
+	Core/Src/draw_rotate.c \
 	Core/Src/ttf_test.c
 
 # ASM sources
