@@ -32,13 +32,13 @@ void render_demo_mode(void){
     if(current_time >= next_time){
         (is_directly) ? (current_demo_alpha+=2) : (current_demo_alpha-=2);
 
-        if( is_directly && (current_demo_alpha >= max_alpha)){
+        if( (is_directly && (current_demo_alpha >= max_alpha)) || (!is_directly && (current_demo_alpha <= min_alpha))){
             is_directly = !is_directly;
         }
 
-        if(!is_directly && (current_demo_alpha <= min_alpha)){
-            is_directly = !is_directly;
-        }
+        // if(!is_directly && (current_demo_alpha <= min_alpha)){
+        //     is_directly = !is_directly;
+        // }
 
         next_time = current_time + time_delay;
     } 

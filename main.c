@@ -149,4 +149,5 @@ void draw_motorcicle(void){
     destination.h = DEF_SCREEN_HEIGHT - destination.y - (mainmenufullrect.y * 2);
 
     SDL_RenderCopy(renderer, texture, NULL, &destination);
+    SDL_DestroyTexture(texture);
 }

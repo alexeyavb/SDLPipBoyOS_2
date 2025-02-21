@@ -86,7 +86,7 @@ void draw_alpha_line_proc(void){
         current_time = SDL_GetTicks() + interval;
         y = (DEF_SCREEN_HEIGHT >= y ) ? delta : (-DEF_RECT_HEIGHT);
     }
-    SDL_SetRenderDrawColor(renderer, DEF_ALPHA_LINE_CLR_R, DEF_ALPHA_LINE_CLR_G, DEF_ALPHA_LINE_CLR_B, DEF_ALPHA_LINE_ACHANNEL);
+    // SDL_SetRenderDrawColor(renderer, DEF_ALPHA_LINE_CLR_R, DEF_ALPHA_LINE_CLR_G, DEF_ALPHA_LINE_CLR_B, DEF_ALPHA_LINE_ACHANNEL);
     rect->x = 0;
     rect->y = y;
     rect->w = surf->w;
