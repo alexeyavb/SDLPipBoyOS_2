@@ -29,12 +29,21 @@ int core_init(){
     //     &window,
     //     &renderer
     // );
+
+    // GL init
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);    
+
     window = SDL_CreateWindow("Matrix-Code",
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
             DEF_SCREEN_WIDTH,
             DEF_SCREEN_HEIGHT,
-            SDL_WINDOW_SHOWN
+            SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL
         );
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
@@ -43,9 +52,9 @@ int core_init(){
     
     SDL_GLContext glcontext = SDL_GL_CreateContext(window);
     if(NULL == glcontext){
-        SDL_Log("error creating glcontext");
+        SDL_Log("error creating glcontext");        
     }
-
+    
     SDL_SetWindowKeyboardGrab(window, SDL_TRUE);
     
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
