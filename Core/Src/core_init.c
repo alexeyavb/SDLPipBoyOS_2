@@ -41,6 +41,11 @@ int core_init(){
     SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "1");
     SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "KMSDRM");
     
+    SDL_GLContext glcontext = SDL_GL_CreateContext(window);
+    if(NULL == glcontext){
+        SDL_Log("error creating glcontext");
+    }
+
     SDL_SetWindowKeyboardGrab(window, SDL_TRUE);
     
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
