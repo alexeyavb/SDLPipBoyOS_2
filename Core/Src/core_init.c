@@ -49,7 +49,7 @@ int core_init(){
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
     SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "1");
     SDL_SetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER, "KMSDRM");
-    
+    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengles");
     SDL_GLContext glcontext = SDL_GL_CreateContext(window);
     if(NULL == glcontext){
         SDL_Log("error creating glcontext");        
@@ -58,6 +58,7 @@ int core_init(){
     SDL_SetWindowKeyboardGrab(window, SDL_TRUE);
     
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    SDL_SetHint(SDL_HINT_RENDER_LINE_METHOD, "3");
 
     SDL_RenderSetLogicalSize(renderer, DEF_SCREEN_WIDTH, DEF_SCREEN_HEIGHT);
     // Disable any scaling (logical size scaling)
