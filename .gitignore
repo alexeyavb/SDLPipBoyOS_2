@@ -4,3 +4,4 @@ build
 ./build
 /build
 *.disabled
+.DS_Store
