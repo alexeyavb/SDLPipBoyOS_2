@@ -152,7 +152,7 @@ void draw_motorcicle(void){
     destination.w = DEF_SCREEN_WIDTH - mainmenufullrect.x - destination.x;
     
     // angle = 360.0f;
-    zoom_step = 6.0f;
+    zoom_step = 1.0f;
     // zoom_step = (360>=angle && 1.0f >= zoom_step ? zoom_step+0.1f : 0.5);        
 
     if(SDL_GetTicks() >= next_rot_frame && nul_angle_delay >= no_rotate){        
